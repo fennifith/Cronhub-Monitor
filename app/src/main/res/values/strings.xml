@@ -9,4 +9,6 @@
     <string name="format_status">Status: %s</string>
     <string name="title_status_up">@android:string/ok</string>
     <string name="title_status_down">DOWN</string>
+    <string name="title_ping_time">Last Ping (year-month-day)</string>
+    <string name="title_next_run_time">Next Expected Run Time</string>
 </resources>
