@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 
+import java.util.Set;
+
 public enum PreferenceData {
     API_KEY(""),
     CRON_NOTIFY_RUN("%s/NOTIFY_RUN", true),
@@ -27,6 +29,10 @@ public enum PreferenceData {
         if (args != null && args.length > 0)
             return String.format(name, (Object[]) args);
         else return name;
+    }
+
+    public static Set<String> getNames(Context context) {
+        return PreferenceManager.getDefaultSharedPreferences(context).getAll().keySet();
     }
 
     public <T> T getDefaultValue() {

@@ -18,8 +18,8 @@ import me.jfenn.cronhubclient.adapters.ItemAdapter;
 import me.jfenn.cronhubclient.data.item.Item;
 import me.jfenn.cronhubclient.data.item.MonitorItem;
 import me.jfenn.cronhubclient.data.request.MonitorListRequest;
-import me.jfenn.cronhubclient.data.request.MonitorRequest;
 import me.jfenn.cronhubclient.data.request.Request;
+import me.jfenn.cronhubclient.data.request.cronhub.Monitor;
 
 public class MainActivity extends AppCompatActivity implements Request.OnInitListener {
 
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements Request.OnInitLis
     public void onInit(Request data) {
         if (data instanceof MonitorListRequest) {
             List<Item> items = new ArrayList<>();
-            for (MonitorRequest monitor : ((MonitorListRequest) data).getMonitors())
+            for (Monitor monitor : ((MonitorListRequest) data).getMonitors())
                 items.add(new MonitorItem(monitor));
 
             recyclerView.setAdapter(new ItemAdapter(items));

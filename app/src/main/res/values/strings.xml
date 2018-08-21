@@ -14,4 +14,10 @@
     <string name="title_about">About</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_notifications_success">Notify of Successful Runs</string>
+    <string name="title_notification_channel">CronHub Alerts</string>
+
+    <string name="format_cron_success">CRON Job Run: \"%s\"</string>
+    <string name="format_cron_failure">Cron Job Failed: \"%s\"</string>
+    <string name="format_cron_success_msg">Your CRON job, \"%1$s\", pinged CronHub\'s servers at %2$s.</string>
+    <string name="format_cron_failure_msg">Your CRON job, \"%1$S\", has not pinged CronHub\'s servers within %2$s minutes of its scheduled execution.</string>
 </resources>

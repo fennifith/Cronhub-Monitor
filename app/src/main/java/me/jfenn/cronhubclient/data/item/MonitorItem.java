@@ -24,13 +24,13 @@ import java.util.TimeZone;
 import me.jfenn.cronhubclient.CronHub;
 import me.jfenn.cronhubclient.R;
 import me.jfenn.cronhubclient.data.PreferenceData;
-import me.jfenn.cronhubclient.data.request.MonitorRequest;
+import me.jfenn.cronhubclient.data.request.cronhub.Monitor;
 
 public class MonitorItem extends Item<MonitorItem.ViewHolder> {
 
-    private MonitorRequest monitor;
+    private Monitor monitor;
 
-    public MonitorItem(MonitorRequest monitor) {
+    public MonitorItem(Monitor monitor) {
         super(R.layout.item_monitor);
         this.monitor = monitor;
     }
@@ -41,7 +41,7 @@ public class MonitorItem extends Item<MonitorItem.ViewHolder> {
     }
 
     @Override
-    public void bind(ViewHolder holder) {
+    public void bind(final ViewHolder holder) {
         Context context = holder.itemView.getContext();
         holder.title.setText(monitor.name);
 
@@ -64,15 +64,14 @@ public class MonitorItem extends Item<MonitorItem.ViewHolder> {
         holder.notifications.setChecked(PreferenceData.CRON_NOTIFY_FAIL.getSpecificValue(context, monitor.code));
         holder.notifications.setOnCheckedChangeListener((buttonView, isChecked) -> {
             PreferenceData.CRON_NOTIFY_FAIL.setValue(buttonView.getContext(), isChecked, monitor.code);
-            ((CronHub) buttonView.getContext().getApplicationContext()).onNotificationsChanged();
+            ((CronHub) buttonView.getContext().getApplicationContext()).onNotificationsChanged(monitor);
+            holder.successNotifications.setVisibility(isChecked ? View.VISIBLE : View.GONE);
         });
 
+        holder.successNotifications.setVisibility(holder.notifications.isChecked() ? View.VISIBLE : View.GONE);
         holder.successNotifications.setOnCheckedChangeListener(null);
         holder.successNotifications.setChecked(PreferenceData.CRON_NOTIFY_RUN.getSpecificValue(context, monitor.code));
-        holder.successNotifications.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            PreferenceData.CRON_NOTIFY_RUN.setValue(buttonView.getContext(), isChecked, monitor.code);
-            ((CronHub) buttonView.getContext().getApplicationContext()).onNotificationsChanged();
-        });
+        holder.successNotifications.setOnCheckedChangeListener((buttonView, isChecked) -> PreferenceData.CRON_NOTIFY_RUN.setValue(buttonView.getContext(), isChecked, monitor.code));
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
