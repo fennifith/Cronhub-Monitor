@@ -7,11 +7,11 @@ import java.util.Map;
 import java.util.Set;
 
 import me.jfenn.cronhubclient.data.PreferenceData;
-import me.jfenn.cronhubclient.data.request.RequestData;
+import me.jfenn.cronhubclient.data.request.Request;
 
 public class CronHub extends Application {
 
-    private Map<RequestData, Long> requests;
+    private Map<Request, Long> requests;
 
     @Override
     public void onCreate() {
@@ -19,14 +19,14 @@ public class CronHub extends Application {
         requests = new HashMap<>();
     }
 
-    public void addRequest(RequestData request) {
+    public void addRequest(Request request) {
         addRequest(request, (String) PreferenceData.API_KEY.getValue(this));
     }
 
-    public void addRequest(RequestData request, String key) {
+    public void addRequest(Request request, String key) {
         if (requests.containsKey(request) && System.currentTimeMillis() - requests.get(request) < 300000) {
-            Set<RequestData> set = requests.keySet();
-            for (RequestData r : set) {
+            Set<Request> set = requests.keySet();
+            for (Request r : set) {
                 if (r.equals(request)) {
                     r.merge(request);
                     return;

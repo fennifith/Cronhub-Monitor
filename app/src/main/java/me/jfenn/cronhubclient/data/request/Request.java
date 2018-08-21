@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public abstract class RequestData {
+public abstract class Request {
 
     private String url;
     private RequestThread thread;
@@ -32,7 +32,7 @@ public abstract class RequestData {
     private List<OnInitListener> listeners;
     private List<String> tags;
 
-    RequestData(String url) {
+    Request(String url) {
         this.url = url;
         listeners = new ArrayList<>();
         tags = new ArrayList<>();
@@ -113,7 +113,7 @@ public abstract class RequestData {
      * @param data the data to merge with
      * @return a somewhat pointless "this", only to make it blatantly obvious which GitHubData actually contains the end result
      */
-    public final RequestData merge(RequestData data) {
+    public final Request merge(Request data) {
         for (OnInitListener listener : data.listeners) {
             if (!listeners.contains(listener))
                 listeners.add(listener);
@@ -154,19 +154,19 @@ public abstract class RequestData {
 
     @Override
     public boolean equals(Object obj) {
-        return obj instanceof RequestData && ((RequestData) obj).url.equals(url);
+        return obj instanceof Request && ((Request) obj).url.equals(url);
     }
 
-    private static class MootInstanceCreator implements InstanceCreator<RequestData> {
+    private static class MootInstanceCreator implements InstanceCreator<Request> {
 
-        private RequestData instance;
+        private Request instance;
 
-        public MootInstanceCreator(RequestData instance) {
+        public MootInstanceCreator(Request instance) {
             this.instance = instance;
         }
 
         @Override
-        public RequestData createInstance(Type type) {
+        public Request createInstance(Type type) {
             return instance;
         }
     }
@@ -174,11 +174,11 @@ public abstract class RequestData {
     private static class RequestThread extends Thread {
 
         private File cacheFile;
-        private RequestData data;
+        private Request data;
         private String url;
         private String token;
 
-        private RequestThread(Context context, String token, RequestData data, String url) {
+        private RequestThread(Context context, String token, Request data, String url) {
             this.data = data;
             this.url = url;
             this.token = token;
@@ -289,9 +289,9 @@ public abstract class RequestData {
     }
 
     public interface OnInitListener {
-        void onInit(RequestData data);
+        void onInit(Request data);
 
-        void onFailure(RequestData data, String message); //TODO: actually calling this method when something fails might be nice
+        void onFailure(Request data, String message); //TODO: actually calling this method when something fails might be nice
     }
 
 }

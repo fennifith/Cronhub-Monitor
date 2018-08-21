@@ -6,7 +6,7 @@ import java.util.List;
 
 import me.jfenn.cronhubclient.data.request.cronhub.Monitor;
 
-public class MonitorListRequest extends RequestData {
+public class MonitorListRequest extends Request {
 
     public boolean success;
     public Monitor[] response;

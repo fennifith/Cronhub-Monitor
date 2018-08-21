@@ -12,9 +12,9 @@ import me.jfenn.cronhubclient.CronHub;
 import me.jfenn.cronhubclient.R;
 import me.jfenn.cronhubclient.data.PreferenceData;
 import me.jfenn.cronhubclient.data.request.MonitorListRequest;
-import me.jfenn.cronhubclient.data.request.RequestData;
+import me.jfenn.cronhubclient.data.request.Request;
 
-public class SplashActivity extends AppCompatActivity implements RequestData.OnInitListener {
+public class SplashActivity extends AppCompatActivity implements Request.OnInitListener {
 
     private CronHub cronHub;
 
@@ -58,7 +58,7 @@ public class SplashActivity extends AppCompatActivity implements RequestData.OnI
     }
 
     @Override
-    public void onInit(RequestData data) {
+    public void onInit(Request data) {
         if (data instanceof MonitorListRequest) {
             PreferenceData.API_KEY.setValue(SplashActivity.this, key);
             startActivity(new Intent(this, MainActivity.class));
@@ -68,7 +68,7 @@ public class SplashActivity extends AppCompatActivity implements RequestData.OnI
     }
 
     @Override
-    public void onFailure(RequestData data, String message) {
+    public void onFailure(Request data, String message) {
         findViewById(R.id.signin).setVisibility(View.VISIBLE);
         Toast.makeText(this, "Authentication failed: " + message, Toast.LENGTH_SHORT).show();
     }
