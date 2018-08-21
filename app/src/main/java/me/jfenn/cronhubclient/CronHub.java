@@ -20,6 +20,7 @@ public class CronHub extends Application {
         super.onCreate();
         requests = new HashMap<>();
         AndroidThreeTen.init(this);
+        onNotificationsChanged();
     }
 
     public void addRequest(Request request) {
@@ -39,5 +40,9 @@ public class CronHub extends Application {
             requests.put(request, System.currentTimeMillis());
             request.startInit(this, key);
         }
+    }
+
+    public void onNotificationsChanged() {
+
     }
 }

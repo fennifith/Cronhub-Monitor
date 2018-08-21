@@ -1,60 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:paddingBottom="4dp"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:paddingTop="4dp">
 
-    <TextView
-        android:id="@+id/title"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="?android:textColorPrimary"
-        android:textSize="18sp"
-        android:layout_marginBottom="4dp"
-        tools:text="Title" />
-
-    <TextView
-        android:id="@+id/status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bg_emphasis"
         android:layout_marginBottom="8dp"
-        tools:text="Status: OK"/>
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            tools:text="Title" />
+
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_emphasis"
+            android:textStyle="bold"
+            tools:text="Status: OK" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingTop="4dp"
         android:paddingBottom="4dp"
-        android:gravity="center_vertical">
+        android:paddingTop="4dp">
 
         <ImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginEnd="16dp"
             android:tint="@color/colorAccent"
-            app:srcCompat="@drawable/ic_history"/>
+            app:srcCompat="@drawable/ic_history" />
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="?android:textColorSecondary"
-                android:textSize="14sp"
                 android:text="@string/title_ping_time"
-                android:textStyle="bold"/>
+                android:textColor="?android:textColorSecondary"
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/pingTime"
@@ -62,7 +71,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="?android:textColorPrimary"
                 android:textSize="16sp"
-                tools:text="2018-08-21 00:00:09 EDT"/>
+                tools:text="2018-08-21 00:00:09 EDT" />
 
         </LinearLayout>
 
@@ -71,31 +80,30 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingTop="4dp"
         android:paddingBottom="4dp"
-        android:gravity="center_vertical">
+        android:paddingTop="4dp">
 
         <ImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginEnd="16dp"
             android:tint="@color/colorAccent"
-            app:srcCompat="@drawable/ic_hourglass"/>
+            app:srcCompat="@drawable/ic_hourglass" />
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="?android:textColorSecondary"
-                android:textSize="14sp"
                 android:text="@string/title_next_run_time"
-                android:textStyle="bold"/>
+                android:textColor="?android:textColorSecondary"
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/nextRunTime"
@@ -103,10 +111,29 @@
                 android:layout_height="wrap_content"
                 android:textColor="?android:textColorPrimary"
                 android:textSize="16sp"
-                tools:text="2018-08-22 00:00:09 EDT"/>
+                tools:text="2018-08-22 00:00:09 EDT" />
 
         </LinearLayout>
 
     </LinearLayout>
+
+    <android.support.v7.widget.SwitchCompat
+        android:id="@+id/notifications"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/title_notifications"
+        android:textStyle="bold" />
+
+    <android.support.v7.widget.AppCompatCheckBox
+        android:id="@+id/successNotifications"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginStart="-4dp"
+        android:paddingLeft="12dp"
+        android:paddingStart="12dp"
+        android:text="@string/title_notifications_success"
+        android:textColor="?android:textColorSecondary" />
 
 </LinearLayout>

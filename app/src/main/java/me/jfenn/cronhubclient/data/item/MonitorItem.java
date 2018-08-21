@@ -1,9 +1,12 @@
 package me.jfenn.cronhubclient.data.item;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SwitchCompat;
 import android.view.View;
 import android.widget.TextView;
 
@@ -18,7 +21,9 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import me.jfenn.cronhubclient.CronHub;
 import me.jfenn.cronhubclient.R;
+import me.jfenn.cronhubclient.data.PreferenceData;
 import me.jfenn.cronhubclient.data.request.MonitorRequest;
 
 public class MonitorItem extends Item<MonitorItem.ViewHolder> {
@@ -37,13 +42,13 @@ public class MonitorItem extends Item<MonitorItem.ViewHolder> {
 
     @Override
     public void bind(ViewHolder holder) {
+        Context context = holder.itemView.getContext();
         holder.title.setText(monitor.name);
 
-        holder.status.setText(String.format(holder.itemView.getContext().getString(R.string.format_status),
-                holder.itemView.getContext().getString(monitor.status.equals("up") ? R.string.title_status_up : R.string.title_status_down)));
+        holder.status.setText(String.format(context.getString(R.string.format_status), context.getString(monitor.status.equals("up") ? R.string.title_status_up : R.string.title_status_down)));
 
         Drawable background = DrawableCompat.wrap(holder.status.getBackground());
-        DrawableCompat.setTint(background, ContextCompat.getColor(holder.itemView.getContext(), monitor.status.equals("up") ? R.color.colorPositive : R.color.colorNegative));
+        DrawableCompat.setTint(background, ContextCompat.getColor(context, monitor.status.equals("up") ? R.color.colorPositive : R.color.colorNegative));
         holder.status.setBackground(background);
 
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
@@ -54,6 +59,20 @@ public class MonitorItem extends Item<MonitorItem.ViewHolder> {
         Optional<ZonedDateTime> nextTime = ExecutionTime.forCron(monitor.getSchedule()).nextExecution(ZonedDateTime.now());
         if (nextTime.isPresent())
             holder.nextRunTime.setText(String.format("%s %s", nextTime.get().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss", Locale.getDefault())), time.getDisplayName(false, TimeZone.SHORT)));
+
+        holder.notifications.setOnCheckedChangeListener(null);
+        holder.notifications.setChecked(PreferenceData.CRON_NOTIFY_FAIL.getSpecificValue(context, monitor.code));
+        holder.notifications.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            PreferenceData.CRON_NOTIFY_FAIL.setValue(buttonView.getContext(), isChecked, monitor.code);
+            ((CronHub) buttonView.getContext().getApplicationContext()).onNotificationsChanged();
+        });
+
+        holder.successNotifications.setOnCheckedChangeListener(null);
+        holder.successNotifications.setChecked(PreferenceData.CRON_NOTIFY_RUN.getSpecificValue(context, monitor.code));
+        holder.successNotifications.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            PreferenceData.CRON_NOTIFY_RUN.setValue(buttonView.getContext(), isChecked, monitor.code);
+            ((CronHub) buttonView.getContext().getApplicationContext()).onNotificationsChanged();
+        });
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -62,6 +81,8 @@ public class MonitorItem extends Item<MonitorItem.ViewHolder> {
         private TextView status;
         private TextView pingTime;
         private TextView nextRunTime;
+        private SwitchCompat notifications;
+        private AppCompatCheckBox successNotifications;
 
         public ViewHolder(View v) {
             super(v);
@@ -69,6 +90,8 @@ public class MonitorItem extends Item<MonitorItem.ViewHolder> {
             status = v.findViewById(R.id.status);
             pingTime = v.findViewById(R.id.pingTime);
             nextRunTime = v.findViewById(R.id.nextRunTime);
+            notifications = v.findViewById(R.id.notifications);
+            successNotifications = v.findViewById(R.id.successNotifications);
         }
     }
 
