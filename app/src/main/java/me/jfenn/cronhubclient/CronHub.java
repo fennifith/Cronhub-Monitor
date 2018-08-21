@@ -2,6 +2,8 @@ package me.jfenn.cronhubclient;
 
 import android.app.Application;
 
+import com.jakewharton.threetenabp.AndroidThreeTen;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -17,6 +19,7 @@ public class CronHub extends Application {
     public void onCreate() {
         super.onCreate();
         requests = new HashMap<>();
+        AndroidThreeTen.init(this);
     }
 
     public void addRequest(Request request) {

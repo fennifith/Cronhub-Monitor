@@ -7,19 +7,25 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
+import com.cronutils.model.time.ExecutionTime;
+import com.google.common.base.Optional;
+
+import org.threeten.bp.ZonedDateTime;
+import org.threeten.bp.format.DateTimeFormatter;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.TimeZone;
 
 import me.jfenn.cronhubclient.R;
-import me.jfenn.cronhubclient.data.request.cronhub.Monitor;
+import me.jfenn.cronhubclient.data.request.MonitorRequest;
 
 public class MonitorItem extends Item<MonitorItem.ViewHolder> {
 
-    private Monitor monitor;
+    private MonitorRequest monitor;
 
-    public MonitorItem(Monitor monitor) {
+    public MonitorItem(MonitorRequest monitor) {
         super(R.layout.item_monitor);
         this.monitor = monitor;
     }
@@ -43,7 +49,11 @@ public class MonitorItem extends Item<MonitorItem.ViewHolder> {
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         TimeZone time = TimeZone.getDefault();
         format.setTimeZone(time);
-        holder.pingTime.setText(format.format(monitor.last_ping.getDate()) + " " + time.getDisplayName(false, TimeZone.SHORT));
+        holder.pingTime.setText(String.format("%s %s", format.format(monitor.last_ping.getDate()), time.getDisplayName(false, TimeZone.SHORT)));
+
+        Optional<ZonedDateTime> nextTime = ExecutionTime.forCron(monitor.getSchedule()).nextExecution(ZonedDateTime.now());
+        if (nextTime.isPresent())
+            holder.nextRunTime.setText(String.format("%s %s", nextTime.get().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss", Locale.getDefault())), time.getDisplayName(false, TimeZone.SHORT)));
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

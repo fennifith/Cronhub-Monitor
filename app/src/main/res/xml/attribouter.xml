@@ -24,12 +24,20 @@
     <me.jfenn.attribouter.wedges.LicensesWedge>
 
         <me.jfenn.attribouter.wedges.LicenseWedge
-            name="CRON"
-            description="Cron expression parser and evaluator. One version based on Joda-time, other on Java Time"
+            name="CRON Utils"
+            description="Cron utils for parsing, validations and human readable descriptions as well as date/time interoperability."
             license="apache-2.0"
             licenseName="Apache 2.0 License"
             licenseUrl="https://choosealicense.com/licenses/apache-2.0/"
-            repo="frode-carlsen/cron" />
+            repo="jmrozanec/cron-utils" />
+
+        <me.jfenn.attribouter.wedges.LicenseWedge
+            name="ThreeTen Android Backport"
+            description="An adaptation of the JSR-310 backport for Android."
+            license="apache-2.0"
+            licenseName="Apache 2.0 License"
+            licenseUrl="https://choosealicense.com/licenses/apache-2.0/"
+            repo="JakeWharton/ThreeTenABP" />
 
     </me.jfenn.attribouter.wedges.LicensesWedge>
 </about>
