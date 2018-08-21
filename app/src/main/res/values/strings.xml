@@ -11,4 +11,5 @@
     <string name="title_status_down">DOWN</string>
     <string name="title_ping_time">Last Ping (year-month-day)</string>
     <string name="title_next_run_time">Next Expected Run Time</string>
+    <string name="title_about">About</string>
 </resources>

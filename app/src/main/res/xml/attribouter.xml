@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<about>
+    <me.jfenn.attribouter.wedges.AppWedge repo="TheAndroidMaster/CronHub-Android" />
+    <me.jfenn.attribouter.wedges.ContributorsWedge repo="TheAndroidMaster/CronHub-Android">
+        <me.jfenn.attribouter.wedges.ContributorWedge
+            login="TheAndroidMaster"
+            position="1"
+            task="^Developer">
+
+            <me.jfenn.attribouter.wedges.link.LinkWedge
+                id="github"
+                url="https://jfenn.me/links/github" />
+
+        </me.jfenn.attribouter.wedges.ContributorWedge>
+        <me.jfenn.attribouter.wedges.ContributorWedge
+            name="Tigran Hakobyan"
+            avatar="https://avatars0.githubusercontent.com/u/3679842"
+            blog="https://tigranhakobyan.com"
+            email="tik.hakobyan@gmail.com"
+            login="tiggreen"
+            position="2"
+            task="CronHub Founder" />
+    </me.jfenn.attribouter.wedges.ContributorsWedge>
+    <me.jfenn.attribouter.wedges.LicensesWedge>
+
+        <me.jfenn.attribouter.wedges.LicenseWedge
+            name="CRON"
+            description="Cron expression parser and evaluator. One version based on Joda-time, other on Java Time"
+            license="apache-2.0"
+            licenseName="Apache 2.0 License"
+            licenseUrl="https://choosealicense.com/licenses/apache-2.0/"
+            repo="frode-carlsen/cron" />
+
+    </me.jfenn.attribouter.wedges.LicensesWedge>
+</about>
