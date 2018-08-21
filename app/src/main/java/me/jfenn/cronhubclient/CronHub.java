@@ -110,12 +110,17 @@ public class CronHub extends Application implements Request.OnInitListener {
                     TimeZone time = TimeZone.getDefault();
                     format.setTimeZone(time);
 
+                    String text = String.format(getString(monitor.status.equals("up") ? R.string.format_cron_success_msg : R.string.format_cron_failure_msg), monitor.name, monitor.status.equals("up")
+                            ? String.format("%s %s", format.format(monitor.last_ping.getDate()), time.getDisplayName(false, TimeZone.SHORT))
+                            : String.valueOf(monitor.grace_period));
+
                     manager.notify((int) (Math.random() * 100), builder.setContentTitle(String.format(getString(monitor.status.equals("up") ? R.string.format_cron_success : R.string.format_cron_failure), monitor.name))
-                            .setContentText(String.format(getString(monitor.status.equals("up") ? R.string.format_cron_success_msg : R.string.format_cron_failure_msg), monitor.name, monitor.status.equals("up")
-                                    ? String.format("%s %s", format.format(monitor.last_ping.getDate()), time.getDisplayName(false, TimeZone.SHORT))
-                                    : String.valueOf(monitor.grace_period)))
+                            .setContentText(text)
+                            .setStyle(new NotificationCompat.BigTextStyle()
+                                    .bigText(text))
                             .setSmallIcon(monitor.status.equals("up") ? R.drawable.ic_check : R.drawable.ic_error)
                             .setPriority(monitor.status.equals("up") ? NotificationCompat.PRIORITY_LOW : NotificationCompat.PRIORITY_MAX)
+                            .setAutoCancel(true)
                             .setContentIntent(PendingIntent.getActivity(this, 0, new Intent(this, SplashActivity.class), 0))
                             .build());
                 }
