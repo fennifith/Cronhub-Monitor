@@ -15,6 +15,15 @@
         android:layout_height="wrap_content"
         android:textColor="?android:textColorPrimary"
         android:textSize="18sp"
+        android:layout_marginBottom="4dp"
         tools:text="Title" />
+
+    <TextView
+        android:id="@+id/status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_emphasis"
+        android:layout_marginBottom="8dp"
+        tools:text="Status: OK"/>
 
 </LinearLayout>

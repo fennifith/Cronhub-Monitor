@@ -5,4 +5,8 @@
     <string name="title_go">Go</string>
     <string name="title_sign_in">Sign In</string>
     <string name="title_authentication">Authentication</string>
+
+    <string name="format_status">Status: %s</string>
+    <string name="title_status_up">@android:string/ok</string>
+    <string name="title_status_down">DOWN</string>
 </resources>
