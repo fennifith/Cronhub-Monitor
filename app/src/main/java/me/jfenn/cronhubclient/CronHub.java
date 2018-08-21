@@ -23,7 +23,7 @@ public class CronHub extends Application {
     }
 
     public void addRequest(Request request) {
-        addRequest(request, (String) PreferenceData.API_KEY.getValue(this));
+        addRequest(request, PreferenceData.API_KEY.getValue(this));
     }
 
     public void addRequest(Request request, String key) {

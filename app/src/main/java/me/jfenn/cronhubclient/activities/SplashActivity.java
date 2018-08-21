@@ -39,15 +39,12 @@ public class SplashActivity extends AppCompatActivity implements Request.OnInitL
             startRequest();
         else signInView.setVisibility(View.VISIBLE);
 
-        signInButtonView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (apiKeyView.getText().toString().length() > 0) {
-                    signInView.setVisibility(View.GONE);
-                    key = apiKeyView.getText().toString();
-                    startRequest();
-                } else Toast.makeText(SplashActivity.this, "Error: missing API key", Toast.LENGTH_SHORT).show();
-            }
+        signInButtonView.setOnClickListener(v -> {
+            if (apiKeyView.getText().toString().length() > 0) {
+                signInView.setVisibility(View.GONE);
+                key = apiKeyView.getText().toString();
+                startRequest();
+            } else Toast.makeText(SplashActivity.this, "Error: missing API key", Toast.LENGTH_SHORT).show();
         });
     }
 

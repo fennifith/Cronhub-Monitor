@@ -270,21 +270,11 @@ public abstract class Request {
         }
 
         private void callInit(final String json) {
-            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                @Override
-                public void run() {
-                    data.init(json);
-                }
-            });
+            new Handler(Looper.getMainLooper()).post(() -> data.init(json));
         }
 
         private void callFailure(final String message) {
-            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                @Override
-                public void run() {
-                    data.failure(message);
-                }
-            });
+            new Handler(Looper.getMainLooper()).post(() -> data.failure(message));
         }
     }
 
