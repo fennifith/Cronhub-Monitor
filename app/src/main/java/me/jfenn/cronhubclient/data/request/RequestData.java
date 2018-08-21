@@ -1,4 +1,4 @@
-package me.jfenn.cronhubclient.data;
+package me.jfenn.cronhubclient.data.request;
 
 import android.content.Context;
 import android.os.Handler;
@@ -25,7 +25,7 @@ import java.util.Scanner;
 public abstract class RequestData {
 
     private String url;
-    private GitHubThread thread;
+    private RequestThread thread;
     private Gson gson;
     private boolean isInitialized;
 
@@ -57,6 +57,15 @@ public abstract class RequestData {
     }
 
     /**
+     * Called when there is a failure.
+     */
+    private void failure() {
+        for (OnInitListener listener : listeners) {
+            listener.onFailure(this);
+        }
+    }
+
+    /**
      * Initializes the values in the class from the json string. Exists only to be
      * overridden if necessary.
      * @param gson the gson object
@@ -82,8 +91,10 @@ public abstract class RequestData {
      * Starts the network request thread, should only be called once.
      */
     public final void startInit(Context context, String token) {
-        thread = new GitHubThread(context, token, this, url);
-        thread.start();
+        if (token != null) {
+            thread = new RequestThread(context, token, this, url);
+            thread.start();
+        } else failure();
     }
 
     public final boolean isInitialized() {
@@ -105,6 +116,11 @@ public abstract class RequestData {
 
         for (String tag : data.tags)
             addTag(tag);
+
+        if (isInitialized()) {
+            for (OnInitListener listener : data.listeners)
+                listener.onInit(this);
+        }
 
         return this;
     }
@@ -150,14 +166,14 @@ public abstract class RequestData {
         }
     }
 
-    private static class GitHubThread extends Thread {
+    private static class RequestThread extends Thread {
 
         private File cacheFile;
         private RequestData data;
         private String url;
         private String token;
 
-        private GitHubThread(Context context, String token, RequestData data, String url) {
+        private RequestThread(Context context, String token, RequestData data, String url) {
             this.data = data;
             this.url = url;
             this.token = token;
@@ -170,38 +186,13 @@ public abstract class RequestData {
 
         @Override
         public void run() {
-            String cache = null;
-            if (Math.abs(System.currentTimeMillis() - cacheFile.lastModified()) < 864000000) {
-                StringBuilder cacheBuilder = new StringBuilder();
-                Scanner cacheScanner = null;
-                try {
-                    cacheScanner = new Scanner(cacheFile);
-                    while (cacheScanner.hasNext()) {
-                        cacheBuilder.append(cacheScanner.nextLine());
-                    }
-
-                    cache = cacheBuilder.toString();
-                } catch (IOException ignored) {
-                } catch (Exception e) {
-                    cacheFile.delete(); //probably a formatting error
-                }
-
-                if (cacheScanner != null)
-                    cacheScanner.close();
-
-                if (cache != null) {
-                    callInit(cache);
-                    return;
-                }
-            }
-
             HttpURLConnection connection = null;
             BufferedReader jsonReader = null;
             StringBuilder jsonBuilder = new StringBuilder();
             try {
                 connection = (HttpURLConnection) new URL(url).openConnection();
                 if (token != null)
-                    connection.setRequestProperty("Authorization", "token " + token);
+                    connection.setRequestProperty("X-Api-Key", "token " + token);
 
                 jsonReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 if (connection.getResponseCode() == 403) {
@@ -242,7 +233,35 @@ public abstract class RequestData {
 
                 if (cacheWriter != null)
                     cacheWriter.close();
+
+                return;
+            } else {
+                String cache = null;
+
+                StringBuilder cacheBuilder = new StringBuilder();
+                Scanner cacheScanner = null;
+                try {
+                    cacheScanner = new Scanner(cacheFile);
+                    while (cacheScanner.hasNext()) {
+                        cacheBuilder.append(cacheScanner.nextLine());
+                    }
+
+                    cache = cacheBuilder.toString();
+                } catch (IOException ignored) {
+                } catch (Exception e) {
+                    cacheFile.delete(); //probably a formatting error
+                }
+
+                if (cacheScanner != null)
+                    cacheScanner.close();
+
+                if (cache != null) {
+                    callInit(cache);
+                    return;
+                }
             }
+
+            callFailure();
         }
 
         private void callInit(final String json) {
@@ -250,6 +269,15 @@ public abstract class RequestData {
                 @Override
                 public void run() {
                     data.init(json);
+                }
+            });
+        }
+
+        private void callFailure() {
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    data.failure();
                 }
             });
         }
