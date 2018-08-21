@@ -4,8 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import me.jfenn.cronhubclient.CronHub;
@@ -21,6 +24,7 @@ public class SplashActivity extends AppCompatActivity implements Request.OnInitL
     private View signInView;
     private EditText apiKeyView;
     private View signInButtonView;
+    private TextView linksView;
 
     private String key;
 
@@ -33,6 +37,7 @@ public class SplashActivity extends AppCompatActivity implements Request.OnInitL
         signInView = findViewById(R.id.signin);
         apiKeyView = findViewById(R.id.apiKey);
         signInButtonView = findViewById(R.id.signInButton);
+        linksView = findViewById(R.id.links);
 
         key = PreferenceData.API_KEY.getValue(this);
         if (key != null && key.length() > 0)
@@ -46,6 +51,9 @@ public class SplashActivity extends AppCompatActivity implements Request.OnInitL
                 startRequest();
             } else Toast.makeText(SplashActivity.this, "Error: missing API key", Toast.LENGTH_SHORT).show();
         });
+
+        linksView.setText(Html.fromHtml(getString(R.string.msg_links)));
+        linksView.setMovementMethod(new LinkMovementMethod());
     }
 
     private void startRequest() {

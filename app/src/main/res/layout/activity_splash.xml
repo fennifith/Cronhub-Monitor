@@ -13,7 +13,7 @@
         android:layout_gravity="center"
         android:orientation="vertical"
         android:padding="16dp"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <TextView
             android:layout_width="match_parent"
@@ -44,9 +44,27 @@
             android:id="@+id/signInButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="16dp"
             android:text="@string/title_sign_in"
             android:textColor="?android:textColorPrimaryInverse" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:text="@string/msg_api_key_storage"
+            android:textAlignment="center"
+            android:textColor="?android:textColorSecondary"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/links"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/msg_links"
+            android:textAlignment="center"
+            android:textColor="?android:textColorSecondary"
+            android:textSize="12sp" />
 
     </LinearLayout>
 

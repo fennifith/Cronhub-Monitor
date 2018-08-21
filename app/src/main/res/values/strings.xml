@@ -21,4 +21,6 @@
     <string name="format_cron_success_msg">Your CRON job, \"%1$s\", pinged CronHub\'s servers at %2$s.</string>
     <string name="format_cron_failure_msg">Your CRON job, \"%1$S\", has not pinged CronHub\'s servers within %2$s minutes of its scheduled execution.</string>
     <string name="error_none">[none]</string>
+    <string name="msg_api_key_storage">Your API key is stored locally and is not shared by this app with any servers other than cronhub.io.</string>
+    <string name="msg_links"><![CDATA[<a href="https://cronhub.io/">https://cronhub.io/</a>  &#8226;  <a href="https://jfenn.me/policies/?cronhubclient">Privacy Policy</a>]]></string>
 </resources>
