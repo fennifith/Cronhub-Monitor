@@ -48,20 +48,21 @@ public abstract class RequestData {
      * @param json the json response
      */
     private void init(String json) {
-        initJson(gson, json);
-        onInit();
-        isInitialized = true;
-        for (OnInitListener listener : listeners) {
-            listener.onInit(this);
+        if (initJson(gson, json)) {
+            onInit();
+            isInitialized = true;
+            for (OnInitListener listener : listeners) {
+                listener.onInit(this);
+            }
         }
     }
 
     /**
      * Called when there is a failure.
      */
-    private void failure() {
+    private void failure(String message) {
         for (OnInitListener listener : listeners) {
-            listener.onFailure(this);
+            listener.onFailure(this, message);
         }
     }
 
@@ -71,13 +72,17 @@ public abstract class RequestData {
      * @param gson the gson object
      * @param json the json string
      */
-    protected void initJson(Gson gson, String json) {
+    protected boolean initJson(Gson gson, String json) {
         try {
             gson.fromJson(json, getClass());
+            return true;
         } catch (JsonSyntaxException e) {
             e.printStackTrace();
             Log.e("Attribouter", "Error parsing JSON from " + url);
         }
+
+        failure("Broken formatting");
+        return false;
     }
 
     /**
@@ -94,7 +99,7 @@ public abstract class RequestData {
         if (token != null) {
             thread = new RequestThread(context, token, this, url);
             thread.start();
-        } else failure();
+        } else failure("Invalid API Key");
     }
 
     public final boolean isInitialized() {
@@ -192,7 +197,7 @@ public abstract class RequestData {
             try {
                 connection = (HttpURLConnection) new URL(url).openConnection();
                 if (token != null)
-                    connection.setRequestProperty("X-Api-Key", "token " + token);
+                    connection.setRequestProperty("X-Api-Key", token);
 
                 jsonReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 if (connection.getResponseCode() == 403) {
@@ -261,7 +266,7 @@ public abstract class RequestData {
                 }
             }
 
-            callFailure();
+            callFailure("Bad request");
         }
 
         private void callInit(final String json) {
@@ -273,11 +278,11 @@ public abstract class RequestData {
             });
         }
 
-        private void callFailure() {
+        private void callFailure(final String message) {
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
-                    data.failure();
+                    data.failure(message);
                 }
             });
         }
@@ -286,7 +291,7 @@ public abstract class RequestData {
     public interface OnInitListener {
         void onInit(RequestData data);
 
-        void onFailure(RequestData data); //TODO: actually calling this method when something fails might be nice
+        void onFailure(RequestData data, String message); //TODO: actually calling this method when something fails might be nice
     }
 
 }

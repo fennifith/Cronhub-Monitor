@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements RequestData.OnIni
     }
 
     @Override
-    public void onFailure(RequestData data) {
+    public void onFailure(RequestData data, String message) {
         finish();
     }
 }

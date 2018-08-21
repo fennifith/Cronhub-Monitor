@@ -6,7 +6,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 
 public enum PreferenceData {
-    API_KEY(null),
+    API_KEY(""),
     CRON_NOTIFY_RUN("%s/NOTIFY_RUN", true),
     CRON_NOTIFY_FAIL("%s/NOTIFY_FAIL", true);
 

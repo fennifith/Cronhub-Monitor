@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">CronHub Monitor</string>
+    <string name="msg_api_key">CronHub Monitor needs your CronHub account\'s API key in order to function. To obtain your API key, go to your CronHub dashboard, enter the settings and select \"Public API Access\", then paste the code into the text field below.</string>
+    <string name="title_api_key">API Key</string>
+    <string name="title_go">Go</string>
+    <string name="title_sign_in">Sign In</string>
+    <string name="title_authentication">Authentication</string>
 </resources>

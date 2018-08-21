@@ -20,6 +20,10 @@ public class CronHub extends Application {
     }
 
     public void addRequest(RequestData request) {
+        addRequest(request, (String) PreferenceData.API_KEY.getValue(this));
+    }
+
+    public void addRequest(RequestData request, String key) {
         if (requests.containsKey(request) && System.currentTimeMillis() - requests.get(request) < 300000) {
             Set<RequestData> set = requests.keySet();
             for (RequestData r : set) {
@@ -30,7 +34,7 @@ public class CronHub extends Application {
             }
         } else {
             requests.put(request, System.currentTimeMillis());
-            request.startInit(this, (String) PreferenceData.API_KEY.getValue(this));
+            request.startInit(this, key);
         }
     }
 }
