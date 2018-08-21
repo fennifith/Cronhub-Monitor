@@ -62,6 +62,7 @@ public class SplashActivity extends AppCompatActivity implements RequestData.OnI
         if (data instanceof MonitorListRequest) {
             PreferenceData.API_KEY.setValue(SplashActivity.this, key);
             startActivity(new Intent(this, MainActivity.class));
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             finish();
         }
     }
