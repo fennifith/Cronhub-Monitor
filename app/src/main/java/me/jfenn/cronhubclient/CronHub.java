@@ -13,6 +13,7 @@ import com.cronutils.model.time.ExecutionTime;
 import com.google.common.base.Optional;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
+import org.threeten.bp.Duration;
 import org.threeten.bp.ZonedDateTime;
 
 import java.text.DateFormat;
@@ -67,14 +68,14 @@ public class CronHub extends Application implements Request.OnInitListener {
         AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
         if (manager != null) {
             if (PreferenceData.CRON_NOTIFY_FAIL.getSpecificValue(this, monitor.code)) {
-                Optional<ZonedDateTime> nextTime = ExecutionTime.forCron(monitor.getSchedule()).nextExecution(ZonedDateTime.now());
+                Optional<Duration> nextTime = ExecutionTime.forCron(monitor.getSchedule()).timeToNextExecution(ZonedDateTime.now());
                 if (nextTime.isPresent()) {
-                    long millis = nextTime.get().toInstant().getEpochSecond() + TimeUnit.MINUTES.toMillis(monitor.grace_period) + 30000;
+                    long millis = System.currentTimeMillis() + nextTime.get().toMillis() + TimeUnit.MINUTES.toMillis(monitor.grace_period) + 60000;
+
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
                         manager.setExact(AlarmManager.RTC_WAKEUP, millis, getNotificationIntent(monitor));
                     else
                         manager.set(AlarmManager.RTC_WAKEUP, millis, getNotificationIntent(monitor));
-
                 }
             } else manager.cancel(getNotificationIntent(monitor));
         }
@@ -94,6 +95,7 @@ public class CronHub extends Application implements Request.OnInitListener {
         } else if (data instanceof MonitorRequest) {
             Monitor monitor = ((MonitorRequest) data).response;
             onNotificationsChanged(monitor);
+
             if (!monitor.status.equals("up") || (Boolean) PreferenceData.CRON_NOTIFY_RUN.getSpecificValue(this, monitor.code)) {
                 NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
                 if (manager != null) {
