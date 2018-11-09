@@ -7,7 +7,6 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Build;
-import android.support.v4.app.NotificationCompat;
 
 import com.cronutils.model.time.ExecutionTime;
 import com.google.common.base.Optional;
@@ -25,6 +24,7 @@ import java.util.Set;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
+import androidx.core.app.NotificationCompat;
 import me.jfenn.cronhubclient.activities.SplashActivity;
 import me.jfenn.cronhubclient.data.PreferenceData;
 import me.jfenn.cronhubclient.data.request.MonitorListRequest;

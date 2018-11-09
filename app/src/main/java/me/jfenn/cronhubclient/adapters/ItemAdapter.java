@@ -1,12 +1,12 @@
 package me.jfenn.cronhubclient.adapters;
 
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import me.jfenn.cronhubclient.data.item.Item;
 
 public class ItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

@@ -3,9 +3,10 @@ package me.jfenn.cronhubclient.data;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.annotation.Nullable;
 
 import java.util.Set;
+
+import androidx.annotation.Nullable;
 
 public enum PreferenceData {
     API_KEY(""),

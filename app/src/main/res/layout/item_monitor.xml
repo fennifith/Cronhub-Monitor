@@ -118,7 +118,7 @@
 
     </LinearLayout>
 
-    <android.support.v7.widget.SwitchCompat
+    <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/notifications"
         android:layout_width="match_parent"
         android:layout_height="32dp"
@@ -126,7 +126,7 @@
         android:text="@string/title_notifications"
         android:textStyle="bold" />
 
-    <android.support.v7.widget.AppCompatCheckBox
+    <androidx.appcompat.widget.AppCompatCheckBox
         android:id="@+id/successNotifications"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <about>
-    <me.jfenn.attribouter.wedges.AppWedge repo="TheAndroidMaster/CronHub-Android" />
-    <me.jfenn.attribouter.wedges.ContributorsWedge repo="TheAndroidMaster/CronHub-Android">
+    <me.jfenn.attribouter.wedges.AppWedge repo="fennifith/CronHub-Android" />
+    <me.jfenn.attribouter.wedges.ContributorsWedge repo="fennifith/CronHub-Android">
         <me.jfenn.attribouter.wedges.ContributorWedge
-            login="TheAndroidMaster"
+            login="fennifith"
             position="1"
             task="^Developer">
 

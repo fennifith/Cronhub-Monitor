@@ -2,8 +2,6 @@ package me.jfenn.cronhubclient.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
@@ -11,6 +9,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import me.jfenn.cronhubclient.CronHub;
 import me.jfenn.cronhubclient.R;
 import me.jfenn.cronhubclient.data.PreferenceData;
