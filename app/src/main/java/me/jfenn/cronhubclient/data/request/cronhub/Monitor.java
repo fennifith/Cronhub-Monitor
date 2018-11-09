@@ -5,6 +5,8 @@ import com.cronutils.model.CronType;
 import com.cronutils.model.definition.CronDefinitionBuilder;
 import com.cronutils.parser.CronParser;
 
+import java.util.Date;
+
 public class Monitor {
 
     public String name;

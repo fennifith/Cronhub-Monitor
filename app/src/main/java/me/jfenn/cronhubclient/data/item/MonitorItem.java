@@ -55,7 +55,7 @@ public class MonitorItem extends Item<MonitorItem.ViewHolder> {
         TimeZone time = TimeZone.getDefault();
         format.setTimeZone(time);
         if (monitor.last_ping != null)
-            holder.pingTime.setText(String.format("%s %s", format.format(monitor.last_ping.getDate()), time.getDisplayName(false, TimeZone.SHORT)));
+            holder.pingTime.setText(String.format("%s %s", format.format(monitor.last_ping), time.getDisplayName(false, TimeZone.SHORT)));
         else holder.pingTime.setText(R.string.error_none);
 
         Optional<ZonedDateTime> nextTime = ExecutionTime.forCron(monitor.getSchedule()).nextExecution(ZonedDateTime.now());

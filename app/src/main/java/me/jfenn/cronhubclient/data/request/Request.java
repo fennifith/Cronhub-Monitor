@@ -39,6 +39,8 @@ public abstract class Request {
 
         gson = new GsonBuilder()
                 .registerTypeAdapter(getClass(), new MootInstanceCreator(this))
+                .setDateFormat("YYYY-MM-DD'T'hh:mm:ss.ZD")
+                .setLenient()
                 .create();
     }
 
@@ -81,6 +83,7 @@ public abstract class Request {
             Log.e("Attribouter", "Error parsing JSON from " + url);
         }
 
+        Log.d("FormattingError", json);
         failure("Broken formatting");
         return false;
     }

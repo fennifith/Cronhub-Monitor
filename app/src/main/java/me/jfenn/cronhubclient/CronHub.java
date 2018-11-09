@@ -112,7 +112,7 @@ public class CronHub extends Application implements Request.OnInitListener {
 
                     String title = String.format(getString(monitor.status.equals("up") ? R.string.format_cron_success : R.string.format_cron_failure), monitor.name);
                     String text = String.format(getString(monitor.status.equals("up") ? R.string.format_cron_success_msg : R.string.format_cron_failure_msg), monitor.name, monitor.status.equals("up")
-                            ? String.format("%s %s", format.format(monitor.last_ping.getDate()), time.getDisplayName(false, TimeZone.SHORT))
+                            ? String.format("%s %s", format.format(monitor.last_ping), time.getDisplayName(false, TimeZone.SHORT))
                             : String.valueOf(monitor.grace_period));
 
                     manager.notify((int) (Math.random() * 100), builder.setContentTitle(title)
