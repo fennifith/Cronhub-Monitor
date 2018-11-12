@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Build;
 
 import com.cronutils.model.time.ExecutionTime;
+import com.evernote.android.job.JobManager;
 import com.google.common.base.Optional;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
@@ -31,17 +32,21 @@ import me.jfenn.cronhubclient.data.request.MonitorListRequest;
 import me.jfenn.cronhubclient.data.request.MonitorRequest;
 import me.jfenn.cronhubclient.data.request.Request;
 import me.jfenn.cronhubclient.data.request.cronhub.Monitor;
-import me.jfenn.cronhubclient.receivers.MonitorReceiver;
+import me.jfenn.cronhubclient.jobs.MonitorJob;
 
 public class CronHub extends Application implements Request.OnInitListener {
 
     private Map<Request, Long> requests;
+    private JobManager jobManager;
 
     @Override
     public void onCreate() {
         super.onCreate();
         requests = new HashMap<>();
         AndroidThreeTen.init(this);
+
+        jobManager = JobManager.create(this);
+        jobManager.addJobCreator(tag -> new MonitorJob());
     }
 
     public void addRequest(Request request) {
@@ -67,26 +72,15 @@ public class CronHub extends Application implements Request.OnInitListener {
     public void onNotificationsChanged(Monitor monitor) {
         AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
         if (manager != null) {
+            jobManager.cancelAllForTag(monitor.code);
             if (PreferenceData.CRON_NOTIFY_FAIL.getSpecificValue(this, monitor.code)) {
                 Optional<Duration> nextTime = ExecutionTime.forCron(monitor.getSchedule()).timeToNextExecution(ZonedDateTime.now());
                 if (nextTime.isPresent()) {
                     long millis = System.currentTimeMillis() + nextTime.get().toMillis() + TimeUnit.MINUTES.toMillis(monitor.grace_period) + 60000;
-
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-                        manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, millis, getNotificationIntent(monitor));
-                    else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
-                        manager.setExact(AlarmManager.RTC_WAKEUP, millis, getNotificationIntent(monitor));
-                    else
-                        manager.set(AlarmManager.RTC_WAKEUP, millis, getNotificationIntent(monitor));
+                    MonitorJob.scheduleJob(monitor.code, millis);
                 }
-            } else manager.cancel(getNotificationIntent(monitor));
+            }
         }
-    }
-
-    public PendingIntent getNotificationIntent(Monitor monitor) {
-        Intent intent = new Intent(this, MonitorReceiver.class);
-        intent.putExtra(MonitorReceiver.EXTRA_MONITOR_CODE, monitor.code);
-        return PendingIntent.getBroadcast(this, monitor.code.hashCode(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     @Override

@@ -39,5 +39,13 @@
             licenseUrl="https://choosealicense.com/licenses/apache-2.0/"
             repo="JakeWharton/ThreeTenABP" />
 
+        <me.jfenn.attribouter.wedges.LicenseWedge
+            name="Android Job"
+            description="A utility library for android to run jobs delayed in the background."
+            license="apache-2.0"
+            licenseName="Apache 2.0 License"
+            licenseUrl="https://choosealicense.com/licenses/apache-2.0/"
+            repo="evernote/android-job" />
+
     </me.jfenn.attribouter.wedges.LicensesWedge>
 </about>

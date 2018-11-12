@@ -55,4 +55,5 @@ dependencies {
     implementation 'me.jfenn:Attribouter:0.1.5'
     implementation 'com.cronutils:cron-utils:6.0.6'
     implementation 'com.jakewharton.threetenabp:threetenabp:1.0.3'
+    implementation 'com.evernote:android-job:1.2.6'
 }
