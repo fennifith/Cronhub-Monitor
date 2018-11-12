@@ -72,7 +72,9 @@ public class CronHub extends Application implements Request.OnInitListener {
                 if (nextTime.isPresent()) {
                     long millis = System.currentTimeMillis() + nextTime.get().toMillis() + TimeUnit.MINUTES.toMillis(monitor.grace_period) + 60000;
 
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                        manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, millis, getNotificationIntent(monitor));
+                    else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
                         manager.setExact(AlarmManager.RTC_WAKEUP, millis, getNotificationIntent(monitor));
                     else
                         manager.set(AlarmManager.RTC_WAKEUP, millis, getNotificationIntent(monitor));

@@ -14,6 +14,7 @@ public abstract class Item<T extends RecyclerView.ViewHolder> {
         this.layout = layout;
     }
 
+    @LayoutRes
     public final int getLayoutRes() {
         return layout;
     }

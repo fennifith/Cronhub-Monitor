@@ -20,7 +20,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.MainActivity"/>
-        <receiver android:name=".receivers.MonitorReceiver"/>
     </application>
 
 </manifest>
