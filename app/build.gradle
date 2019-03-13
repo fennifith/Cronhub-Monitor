@@ -19,7 +19,6 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
         }
     }
     compileOptions {
@@ -29,6 +28,7 @@ android {
 
     def isRunningOnTravis = System.getenv("CI") == "true"
     if (isRunningOnTravis) {
+        buildTypes.release.signingConfig = signingConfigs.release
         signingConfigs.release.storeFile = file("../key.jks")
         signingConfigs.release.storePassword = System.getenv("KEYSTORE_PASSWORD")
         signingConfigs.release.keyAlias = System.getenv("KEYSTORE_ALIAS")
